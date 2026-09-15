@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrickStashly — Track your LEGO collection</title>
+<meta name="description" content="BrickStashly tracks your LEGO collection and wishlist, follows the lines you love, and (coming soon) tells you the moment a set goes on sale.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+
+  :root {
+    --bg: #FAF7F2;
+    --bg-raised: #FFFFFF;
+    --ink: #1E1B18;
+    --ink-soft: #6E655C;
+    --line: #E7DED0;
+    --red: #C8322A;
+    --red-deep: #A82720;
+    --gold: #E0A324;
+    --blue: #208AEF;
+    --blue-soft: #E2EFFC;
+    --stud: #EFE7D8;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17140F;
+      --bg-raised: #211D17;
+      --ink: #F4EEE3;
+      --ink-soft: #A79C8C;
+      --line: #362F26;
+      --red: #E2564C;
+      --red-deep: #C8322A;
+      --gold: #F0BD4E;
+      --blue: #5FA8FF;
+      --blue-soft: #1C2A3A;
+      --stud: #2A241C;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17140F; --bg-raised: #211D17; --ink: #F4EEE3; --ink-soft: #A79C8C;
+    --line: #362F26; --red: #E2564C; --red-deep: #C8322A; --gold: #F0BD4E;
+    --blue: #5FA8FF; --blue-soft: #1C2A3A; --stud: #2A241C;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: light dark; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Karla', system-ui, sans-serif;
+    margin: 0;
+    padding-inline: max(20px, calc((100% - 1080px) / 2));
+  }
+  img { max-width: 100%; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; text-wrap: balance; margin: 0; }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 500;
+  }
+
+  /* ---------- Nav ---------- */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand { display: flex; align-items: center; gap: 9px; }
+  .brand-mark {
+    width: 26px; height: 26px; border-radius: 6px;
+    background: var(--red);
+    position: relative;
+    flex: none;
+  }
+  .brand-mark::before, .brand-mark::after {
+    content: ''; position: absolute; top: -4px; width: 7px; height: 5px;
+    border-radius: 2px; background: var(--red);
+  }
+  .brand-mark::before { left: 4px; }
+  .brand-mark::after { right: 4px; }
+  .brand-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 19px; }
+  nav .status {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    border: 1px solid var(--line);
+    padding: 5px 11px;
+    border-radius: 999px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+    align-items: center;
+    padding-block: 64px 56px;
+  }
+  .hero h1 {
+    font-size: clamp(38px, 4.6vw, 58px);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    margin-top: 14px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--red);
+  }
+  .hero p {
+    font-size: 17.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 46ch;
+    margin-top: 18px;
+  }
+  .hero-tags { display: flex; gap: 8px; margin-top: 26px; flex-wrap: wrap; }
+  .tag {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Phone mockup ---------- */
+  .phone-wrap { display: flex; justify-content: center; }
+  .phone {
+    width: 268px;
+    background: var(--bg-raised);
+    border: 10px solid var(--ink);
+    border-radius: 34px;
+    padding: 16px 14px;
+    box-shadow: 0 24px 48px -20px rgba(0,0,0,0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .phone-header { display: flex; align-items: center; justify-content: space-between; }
+  .phone-header .ph-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 17px; }
+  .ph-bell { width: 20px; height: 20px; border-radius: 6px; background: var(--gold); }
+  .set-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px; border-radius: 10px; background: var(--stud);
+  }
+  .set-thumb { width: 34px; height: 34px; border-radius: 7px; flex: none; }
+  .set-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .set-line1 { height: 8px; width: 78%; border-radius: 3px; background: var(--ink); opacity: 0.75; }
+  .set-line2 { height: 6px; width: 46%; border-radius: 3px; background: var(--ink-soft); opacity: 0.55; }
+  .deal-pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    padding: 3px 7px; border-radius: 999px;
+    background: var(--red); color: #fff; flex: none;
+  }
+  .phone-tabbar {
+    display: flex; justify-content: space-around;
+    padding-top: 10px; border-top: 1px solid var(--line);
+  }
+  .tb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+  .tb-dot.active { background: var(--blue); width: 20px; border-radius: 4px; }
+
+  /* ---------- Features ---------- */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    padding-block: 44px 60px;
+    border-top: 1px solid var(--line);
+  }
+  .feature-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .features h3 { font-size: 21px; font-weight: 600; margin-bottom: 8px; }
+  .features p { font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0; }
+  .swatch { width: 34px; height: 34px; border-radius: 9px; margin-bottom: 16px; }
+  .swatch.red { background: var(--red); }
+  .swatch.blue { background: var(--blue); }
+  .swatch.gold { background: var(--gold); }
+
+  /* ---------- Deals callout ---------- */
+  .callout {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 36px 40px;
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    margin-block: 8px 60px;
+  }
+  .callout-icon {
+    width: 64px; height: 64px; border-radius: 16px; flex: none;
+    background: linear-gradient(150deg, var(--gold), var(--red));
+  }
+  .callout h2 { font-size: 25px; font-weight: 600; }
+  .callout p { font-size: 15.5px; line-height: 1.6; color: var(--ink-soft); margin-top: 8px; max-width: 56ch; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding-block: 28px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .footer-top { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; }
+  footer .brand-name { font-size: 15px; }
+  footer .made-in { font-size: 13px; color: var(--ink-soft); font-family: 'IBM Plex Mono', monospace; }
+  .disclaimer {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 72ch;
+  }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding-block: 40px 20px; }
+    .phone-wrap { order: -1; }
+    .phone { width: 220px; }
+    .features { grid-template-columns: 1fr; gap: 36px; padding-block: 36px 40px; }
+    .callout { flex-direction: column; align-items: flex-start; padding: 28px 24px; gap: 18px; }
+    nav { flex-wrap: wrap; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    <div class="brand-mark"></div>
+    <span class="brand-name">BrickStashly</span>
+  </div>
+  <span class="status">In development</span>
+</nav>
+
+<section class="hero">
+  <div>
+    <span class="eyebrow">A collector's companion</span>
+    <h1>Every set you own.<br>Every set you want.<br><em>One stash.</em></h1>
+    <p>BrickStashly tracks your LEGO&reg; collection and wishlist, follows the lines you care about as new sets land, and — coming soon — tells you the moment one goes on sale.</p>
+    <div class="hero-tags">
+      <span class="tag">iOS &amp; Android</span>
+      <span class="tag">Collection tracking</span>
+      <span class="tag">Wishlist alerts</span>
+      <span class="tag">Deal tracking — coming soon</span>
+    </div>
+  </div>
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-header">
+        <span class="ph-title">Novetats</span>
+        <div class="ph-bell"></div>
+      </div>
+      <div class="set-row">
+        <div class="set-thumb" style="background:var(--blue-soft)"></div>
+        <div class="set-info"><div class="set-line1"></div><div class="set-line2"></div></div>
+      </div>
+      <div class="set-row">
+        <div class="set-thumb" style="background:var(--stud)"></div>
+        <div class="set-info"><div class="set-line1" style="width:60%"></div><div class="set-line2"></div></div>
+        <div class="deal-pill">-18%</div>
+      </div>
+      <div class="set-row">
+        <div class="set-thumb" style="background:var(--blue-soft)"></div>
+        <div class="set-info"><div class="set-line1" style="width:70%"></div><div class="set-line2" style="width:30%"></div></div>
+      </div>
+      <div class="set-row">
+        <div class="set-thumb" style="background:var(--stud)"></div>
+        <div class="set-info"><div class="set-line1" style="width:52%"></div><div class="set-line2"></div></div>
+      </div>
+      <div class="phone-tabbar">
+        <div class="tb-dot active"></div>
+        <div class="tb-dot"></div>
+        <div class="tb-dot"></div>
+        <div class="tb-dot"></div>
+        <div class="tb-dot"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div>
+    <div class="swatch blue"></div>
+    <div class="feature-num">01</div>
+    <h3>Your whole collection</h3>
+    <p>Owned sets, wishlist, and custom lists — piece counts, minifigs, and notes on every set, at a glance.</p>
+  </div>
+  <div>
+    <div class="swatch gold"></div>
+    <div class="feature-num">02</div>
+    <h3>Follow the lines you love</h3>
+    <p>Pick your themes and see new releases the day they land, instead of stumbling on them months later.</p>
+  </div>
+  <div>
+    <div class="swatch red"></div>
+    <div class="feature-num">03</div>
+    <h3>Never miss a drop</h3>
+    <p>Price tracking across major retailers, with wishlist matches surfaced first. In active development now.</p>
+  </div>
+</section>
+
+<div class="callout">
+  <div class="callout-icon"></div>
+  <div>
+    <h2>Ofertes — deal tracking, in progress</h2>
+    <p>BrickStashly is building hourly price tracking across LEGO retailers, so a wishlist set on sale reaches you the same day, not weeks after the deal is gone.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-top">
+    <div class="brand"><div class="brand-mark" style="width:18px;height:18px;border-radius:4px;"></div><span class="brand-name">BrickStashly</span></div>
+    <span class="made-in">built solo &middot; Catalonia</span>
+  </div>
+  <p class="disclaimer">BrickStashly is an independent, fan-made project and is not affiliated with, endorsed by, or sponsored by the LEGO Group. LEGO&reg; is a trademark of the LEGO Group, which does not sponsor, authorize, or endorse this site.</p>
+</footer>
+
+</body>
+</html>
