@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>DropBrick — Choose a new password</title>
+<link rel="icon" type="image/png" href="/logo.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+
+  :root {
+    --bg: #FAF7F2;
+    --bg-raised: #FFFFFF;
+    --ink: #1E1B18;
+    --ink-soft: #6E655C;
+    --line: #E7DED0;
+    --red: #C8322A;
+    --red-deep: #A82720;
+    --blue: #208AEF;
+    --error: #D92D20;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17140F;
+      --bg-raised: #211D17;
+      --ink: #F4EEE3;
+      --ink-soft: #A79C8C;
+      --line: #362F26;
+      --red: #E2564C;
+      --red-deep: #C8322A;
+      --blue: #5FA8FF;
+      --error: #F97066;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: light dark; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Karla', system-ui, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+  }
+  .brand { display: flex; align-items: center; gap: 9px; margin-bottom: 28px; text-decoration: none; color: var(--ink); }
+  .brand-logo { width: 40px; height: 40px; flex: none; }
+  .brand-name { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 19px; }
+
+  .card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--bg-raised);
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    padding: 36px 32px;
+    text-align: center;
+  }
+  .badge {
+    width: 56px; height: 56px; border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--blue);
+    color: #fff;
+    font-size: 30px; font-weight: 700; line-height: 1;
+  }
+  .card.error .badge { background: var(--red); }
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .rule { border-top: 2px dashed var(--ink); margin: 20px 0; }
+  p { font-size: 16.5px; line-height: 1.6; color: var(--ink-soft); margin: 0; }
+  .note {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 12px;
+    margin-top: 18px;
+  }
+  .home { margin-top: 24px; font-size: 14px; color: var(--ink-soft); }
+  .home a { color: var(--red); }
+
+  form { text-align: left; display: flex; flex-direction: column; gap: 6px; }
+  label { font-size: 14px; font-weight: 600; margin-top: 10px; }
+  .field { position: relative; }
+  input {
+    width: 100%;
+    font: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    background: var(--bg);
+    border: 2px solid var(--ink);
+    border-radius: 3px;
+    padding: 12px 74px 12px 12px;
+  }
+  input:focus-visible { outline: 3px solid var(--blue); outline-offset: 1px; }
+  .toggle {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    font: inherit; font-size: 13px; font-weight: 600;
+    color: var(--ink-soft);
+    background: none; border: none; cursor: pointer;
+    padding: 8px;
+  }
+  .hint { font-size: 13px; color: var(--ink-soft); }
+  .message { font-size: 14px; color: var(--error); min-height: 1.4em; }
+  button.submit {
+    margin-top: 10px;
+    font: inherit; font-size: 15px; font-weight: 700; letter-spacing: 0.3px;
+    color: #fff;
+    background: var(--red);
+    border: none; border-radius: 3px;
+    padding: 14px 20px;
+    cursor: pointer;
+  }
+  button.submit:hover:not(:disabled) { background: var(--red-deep); }
+  button.submit:disabled { opacity: 0.45; cursor: not-allowed; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<a class="brand" href="/">
+  <img class="brand-logo" src="/logo.png" alt="" width="40" height="40">
+  <span class="brand-name">DropBrick</span>
+</a>
+
+<main class="card" id="card">
+  <!-- Checking the link -->
+  <section id="loading">
+    <h1 id="loading-title">Checking your link…</h1>
+  </section>
+
+  <!-- The link is good: choose a password -->
+  <section id="form-view" hidden>
+    <h1 id="form-title">Choose a new password</h1>
+    <div class="rule"></div>
+    <form id="form" novalidate>
+      <label for="password" id="label-password">New password</label>
+      <div class="field">
+        <input id="password" type="password" autocomplete="new-password" autocapitalize="none" spellcheck="false">
+        <button type="button" class="toggle" id="toggle-password">Show</button>
+      </div>
+      <span class="hint" id="hint">At least 8 characters.</span>
+
+      <label for="confirm" id="label-confirm">Confirm password</label>
+      <div class="field">
+        <input id="confirm" type="password" autocomplete="new-password" autocapitalize="none" spellcheck="false">
+        <button type="button" class="toggle" id="toggle-confirm">Show</button>
+      </div>
+      <span class="message" id="message" role="alert"></span>
+
+      <button type="submit" class="submit" id="submit" disabled>Save password</button>
+    </form>
+  </section>
+
+  <!-- Done -->
+  <section id="done-view" hidden>
+    <div class="badge" aria-hidden="true">&#10003;</div>
+    <h1 id="done-title">Password updated</h1>
+    <div class="rule"></div>
+    <p id="done-body">Go back to the app and sign in with your new password.</p>
+    <p class="note" id="done-note">You can close this page.</p>
+  </section>
+
+  <!-- The link can't be used -->
+  <section id="invalid-view" hidden>
+    <div class="badge" aria-hidden="true">!</div>
+    <h1 id="invalid-title">This link can’t be used</h1>
+    <div class="rule"></div>
+    <p id="invalid-body">It has expired or was already used. Request a new one from the sign-in screen of the app.</p>
+    <p class="note" id="invalid-note">You can close this page.</p>
+  </section>
+</main>
+
+<p class="home"><a href="/">dropbrick.app</a></p>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"
+        integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP"
+        crossorigin="anonymous"></script>
+<script>
+  // Where the "reset password" email lands. The email's button points here
+  // with the one-time token in the #fragment (`#token_hash=…&type=recovery`).
+  // A fragment is never sent to any server, and the page wipes it from the
+  // address bar right away. Checking the token (verifyOtp) happens here in
+  // the browser, not through a link that Supabase would consume — so mail
+  // scanners that open links ahead of the person don't burn it.
+  //
+  // The URL and key below are the project's PUBLIC (anon) ones — the same
+  // ones that ship inside the app; the data is protected by row security.
+  var SUPABASE_URL = 'https://frusstjjhxtwgjeqdqcf.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_xOO2j86uHQBHTuLtd7xsJg_8em1sZbo';
+  var MIN_PASSWORD_LENGTH = 8; // keep in step with src/lib/auth.ts in the app
+
+  var TEXT = {
+    en: {
+      loading: 'Checking your link…',
+      formTitle: 'Choose a new password',
+      labelPassword: 'New password',
+      labelConfirm: 'Confirm password',
+      hint: 'At least 8 characters.',
+      show: 'Show', hide: 'Hide',
+      submit: 'Save password', saving: 'Saving…',
+      mismatch: 'The passwords don’t match.',
+      weak: 'That password is too weak.',
+      same: 'Choose a password different from your current one.',
+      generic: 'Something went wrong. Try again.',
+      doneTitle: 'Password updated',
+      doneBody: 'Go back to the app and sign in with your new password.',
+      note: 'You can close this page.',
+      invalidTitle: 'This link can’t be used',
+      invalidBody: 'It has expired or was already used. Request a new one from the sign-in screen of the app.'
+    },
+    ca: {
+      loading: 'Comprovant l’enllaç…',
+      formTitle: 'Tria una contrasenya nova',
+      labelPassword: 'Contrasenya nova',
+      labelConfirm: 'Confirma la contrasenya',
+      hint: 'Mínim 8 caràcters.',
+      show: 'Mostra', hide: 'Amaga',
+      submit: 'Desar contrasenya', saving: 'Desant…',
+      mismatch: 'Les contrasenyes no coincideixen.',
+      weak: 'La contrasenya és massa feble.',
+      same: 'Tria una contrasenya diferent de l’actual.',
+      generic: 'Alguna cosa ha fallat. Torna-ho a provar.',
+      doneTitle: 'Contrasenya actualitzada',
+      doneBody: 'Torna a l’app i inicia sessió amb la contrasenya nova.',
+      note: 'Ja pots tancar aquesta pàgina.',
+      invalidTitle: 'Aquest enllaç no es pot fer servir',
+      invalidBody: 'Ha caducat o ja s’ha utilitzat. Demana’n un de nou des de la pantalla d’inici de sessió de l’app.'
+    },
+    es: {
+      loading: 'Comprobando el enlace…',
+      formTitle: 'Elige una contraseña nueva',
+      labelPassword: 'Contraseña nueva',
+      labelConfirm: 'Confirma la contraseña',
+      hint: 'Mínimo 8 caracteres.',
+      show: 'Mostrar', hide: 'Ocultar',
+      submit: 'Guardar contraseña', saving: 'Guardando…',
+      mismatch: 'Las contraseñas no coinciden.',
+      weak: 'La contraseña es demasiado débil.',
+      same: 'Elige una contraseña diferente de la actual.',
+      generic: 'Algo ha fallado. Inténtalo de nuevo.',
+      doneTitle: 'Contraseña actualizada',
+      doneBody: 'Vuelve a la app e inicia sesión con tu contraseña nueva.',
+      note: 'Ya puedes cerrar esta página.',
+      invalidTitle: 'Este enlace no se puede usar',
+      invalidBody: 'Ha caducado o ya se ha usado. Pide uno nuevo desde la pantalla de inicio de sesión de la app.'
+    }
+  };
+
+  var query = new URLSearchParams(location.search);
+  // ?lang=ca|es|en overrides the browser language (handy for testing).
+  var wanted = (query.get('lang') || navigator.language || 'en').slice(0, 2).toLowerCase();
+  var lang = TEXT[wanted] ? wanted : 'en';
+  var t = TEXT[lang];
+
+  function $(id) { return document.getElementById(id); }
+  function setText(id, value) { $(id).textContent = value; }
+
+  document.documentElement.lang = lang;
+  document.title = 'DropBrick — ' + t.formTitle;
+  setText('loading-title', t.loading);
+  setText('form-title', t.formTitle);
+  setText('label-password', t.labelPassword);
+  setText('label-confirm', t.labelConfirm);
+  setText('hint', t.hint);
+  setText('toggle-password', t.show);
+  setText('toggle-confirm', t.show);
+  setText('submit', t.submit);
+  setText('done-title', t.doneTitle);
+  setText('done-body', t.doneBody);
+  setText('done-note', t.note);
+  setText('invalid-title', t.invalidTitle);
+  setText('invalid-body', t.invalidBody);
+  setText('invalid-note', t.note);
+
+  function show(view) {
+    ['loading', 'form-view', 'done-view', 'invalid-view'].forEach(function (id) {
+      $(id).hidden = id !== view;
+    });
+    $('card').classList.toggle('error', view === 'invalid-view');
+    if (view === 'invalid-view') document.title = 'DropBrick — ' + t.invalidTitle;
+    if (view === 'done-view') document.title = 'DropBrick — ' + t.doneTitle;
+  }
+
+  // Read the token, then wipe the fragment from the address bar.
+  var hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+  history.replaceState(null, '', location.pathname);
+  var tokenHash = hash.get('token_hash');
+  var linkType = hash.get('type');
+
+  var client = null;
+  if (window.supabase && tokenHash && linkType === 'recovery' && !hash.has('error')) {
+    // Nothing is stored: the session lives in memory for this page only.
+    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+    });
+    client.auth.verifyOtp({ token_hash: tokenHash, type: 'recovery' }).then(function (result) {
+      show(result.error ? 'invalid-view' : 'form-view');
+    }, function () { show('invalid-view'); });
+  } else {
+    show('invalid-view');
+  }
+
+  var password = $('password');
+  var confirmField = $('confirm');
+  var submit = $('submit');
+  var message = $('message');
+  var saving = false;
+  var serverError = ''; // what the server said about the last attempt; cleared on the next edit
+
+  function update() {
+    var mismatch = confirmField.value !== '' && password.value !== confirmField.value;
+    message.textContent = mismatch ? t.mismatch : serverError;
+    submit.disabled = saving || password.value.length < MIN_PASSWORD_LENGTH || password.value !== confirmField.value;
+  }
+  function onEdit() { serverError = ''; update(); }
+  password.addEventListener('input', onEdit);
+  confirmField.addEventListener('input', onEdit);
+
+  function wireToggle(buttonId, field) {
+    $(buttonId).addEventListener('click', function () {
+      var reveal = field.type === 'password';
+      field.type = reveal ? 'text' : 'password';
+      setText(buttonId, reveal ? t.hide : t.show);
+    });
+  }
+  wireToggle('toggle-password', password);
+  wireToggle('toggle-confirm', confirmField);
+
+  $('form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    if (saving || submit.disabled || !client) return;
+    saving = true;
+    serverError = '';
+    setText('submit', t.saving);
+    update();
+    client.auth.updateUser({ password: password.value }).then(function (result) {
+      if (result.error) {
+        var code = result.error.code;
+        serverError = code === 'weak_password' ? t.weak : code === 'same_password' ? t.same : t.generic;
+        return;
+      }
+      // Done: drop the in-memory session, nothing should stay signed in here.
+      client.auth.signOut().catch(function () {});
+      show('done-view');
+    }, function () {
+      serverError = t.generic;
+    }).then(function () {
+      saving = false;
+      setText('submit', t.submit);
+      update();
+    });
+  });
+</script>
+
+</body>
+</html>
