@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Kept out of search engines while the app is in development. REMOVE this
+     line (on every page) when the app is ready for the stores. -->
+<meta name="robots" content="noindex">
 <title>DropBrick — Your LEGO collection, and every price drop</title>
 <link rel="icon" type="image/png" href="/logo.png">
 <meta name="description" content="DropBrick tracks your LEGO collection and wishlist, follows the lines you love, and shows you which sets are on sale in participating shops.">
@@ -208,6 +211,9 @@
   .footer-top { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; }
   footer .brand-name { font-size: 15px; }
   footer .made-in { font-size: 13px; color: var(--ink-soft); font-family: 'IBM Plex Mono', monospace; }
+  .footer-links { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
+  .footer-links a { color: var(--ink-soft); }
+  .footer-links a:hover { color: var(--red); }
   .disclaimer {
     font-size: 12.5px;
     line-height: 1.6;
@@ -315,6 +321,11 @@
     <div class="brand"><img class="brand-logo" src="/logo.png" alt="" width="24" height="24" style="width:24px;height:24px;"><span class="brand-name">DropBrick</span></div>
     <span class="made-in">built solo &middot; Catalonia</span>
   </div>
+  <nav class="footer-links" aria-label="Footer">
+    <a href="/privacy">Privacy policy</a>
+    <a href="/support">Support</a>
+    <a href="mailto:support@dropbrick.app">support@dropbrick.app</a>
+  </nav>
   <p class="disclaimer">DropBrick takes part in affiliate programmes (such as Awin&rsquo;s): purchase links may earn us a commission if you buy from the shop, at no extra cost to you. DropBrick is an independent, fan-made project and is not affiliated with, endorsed by, or sponsored by the LEGO Group. LEGO&reg; is a trademark of the LEGO Group, which does not sponsor, authorize, or endorse this site.</p>
 </footer>
 

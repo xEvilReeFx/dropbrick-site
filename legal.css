@@ -1,0 +1,151 @@
+/* Shared by privacy.html and support.html — same "El manual" palette as the
+   landing page. */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+
+:root {
+  --bg: #FAF7F2;
+  --bg-raised: #FFFFFF;
+  --ink: #1E1B18;
+  --ink-soft: #6E655C;
+  --line: #E7DED0;
+  --red: #C8322A;
+  --stud: #EFE7D8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17140F;
+    --bg-raised: #211D17;
+    --ink: #F4EEE3;
+    --ink-soft: #A79C8C;
+    --line: #362F26;
+    --red: #E2564C;
+    --stud: #2A241C;
+  }
+}
+
+* { box-sizing: border-box; }
+html { color-scheme: light dark; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Karla', system-ui, sans-serif;
+  margin: 0;
+  padding: 0 20px 48px;
+}
+
+.top, main, .foot { max-width: 760px; margin-inline: auto; }
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-block: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); }
+.brand img { width: 34px; height: 34px; }
+.brand span { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 19px; }
+
+.langs { display: flex; gap: 6px; }
+.langs a {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  padding: 5px 10px;
+  border-radius: 999px;
+}
+.langs a[aria-current="true"] { color: #fff; background: var(--red); border-color: var(--red); }
+
+main { padding-block: 36px 24px; }
+h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(30px, 5vw, 42px);
+  line-height: 1.1;
+  margin: 0 0 6px;
+}
+h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 21px;
+  margin: 34px 0 8px;
+}
+.updated {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 0 0 22px;
+}
+p, li { font-size: 16.5px; line-height: 1.65; }
+p { margin: 0 0 12px; }
+ul { margin: 0 0 12px; padding-left: 22px; }
+li { margin-bottom: 6px; }
+a { color: var(--red); }
+.lead { color: var(--ink-soft); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 16px;
+  font-size: 15px;
+  line-height: 1.55;
+  border: 2px solid var(--ink);
+  background: var(--bg-raised);
+}
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--stud);
+}
+tr:last-child td { border-bottom: none; }
+
+details {
+  background: var(--bg-raised);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+summary {
+  cursor: pointer;
+  padding: 14px 16px;
+  font-weight: 700;
+  font-size: 16.5px;
+}
+details > div { padding: 0 16px 6px; color: var(--ink-soft); }
+details > div p { font-size: 16px; }
+
+.contact {
+  background: var(--bg-raised);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  padding: 18px 20px;
+  margin: 8px 0 8px;
+}
+.contact strong { display: block; font-family: 'Fraunces', Georgia, serif; font-size: 19px; margin-bottom: 4px; }
+
+.foot {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  tr { border-bottom: 1px solid var(--line); padding: 8px 0; }
+  td { border: none; padding: 4px 12px; }
+  td:first-child { font-weight: 700; padding-top: 8px; }
+}
