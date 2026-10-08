@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>DropBrick — Email confirmed</title>
+<link rel="icon" type="image/png" href="/logo.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+
+  :root {
+    --bg: #FAF7F2;
+    --bg-raised: #FFFFFF;
+    --ink: #1E1B18;
+    --ink-soft: #6E655C;
+    --line: #E7DED0;
+    --red: #C8322A;
+    --blue: #208AEF;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17140F;
+      --bg-raised: #211D17;
+      --ink: #F4EEE3;
+      --ink-soft: #A79C8C;
+      --line: #362F26;
+      --red: #E2564C;
+      --blue: #5FA8FF;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: light dark; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Karla', system-ui, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 20px;
+  }
+  .brand { display: flex; align-items: center; gap: 9px; margin-bottom: 28px; text-decoration: none; color: var(--ink); }
+  .brand-logo { width: 40px; height: 40px; flex: none; }
+  .brand-name { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 19px; }
+
+  .card {
+    width: 100%;
+    max-width: 440px;
+    background: var(--bg-raised);
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    padding: 36px 32px;
+    text-align: center;
+  }
+  .badge {
+    width: 56px; height: 56px; border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--blue);
+    color: #fff;
+    font-size: 30px; font-weight: 700; line-height: 1;
+  }
+  .card.error .badge { background: var(--red); }
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .rule { border-top: 2px dashed var(--ink); margin: 20px 0; }
+  p { font-size: 16.5px; line-height: 1.6; color: var(--ink-soft); margin: 0; }
+  .note {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 12px;
+    margin-top: 18px;
+  }
+  .home { margin-top: 24px; font-size: 14px; color: var(--ink-soft); }
+  .home a { color: var(--red); }
+</style>
+</head>
+<body>
+
+<a class="brand" href="/">
+  <img class="brand-logo" src="/logo.png" alt="" width="40" height="40">
+  <span class="brand-name">DropBrick</span>
+</a>
+
+<main class="card" id="card">
+  <div class="badge" id="badge" aria-hidden="true">&#10003;</div>
+  <h1 id="title">Email confirmed</h1>
+  <div class="rule"></div>
+  <p id="body">Your DropBrick account is ready. Go back to the app and sign in.</p>
+  <p class="note" id="note">You can close this page.</p>
+</main>
+
+<p class="home"><a href="/">dropbrick.app</a></p>
+
+<script>
+  // Supabase sends people here after they tap the link in the confirmation
+  // email. On success it appends the session tokens to the address as a
+  // #fragment; on a bad link it appends #error=...&error_code=... instead.
+  // The page needs neither token, so it only reads the error and then wipes
+  // the fragment, so no token stays in the browser history.
+  var hash = new URLSearchParams(location.hash.replace(/^#/, ''));
+  var failed = hash.has('error') || hash.has('error_code');
+  var query = new URLSearchParams(location.search);
+  history.replaceState(null, '', location.pathname);
+
+  var TEXT = {
+    en: {
+      ok: ['Email confirmed', 'Your DropBrick account is ready. Go back to the app and sign in.', 'You can close this page.'],
+      bad: ['This link can’t be used', 'It has expired or was already used. If you’ve already confirmed your email, just sign in to the app. If not, sign up again in the app to get a new link.', 'You can close this page.']
+    },
+    ca: {
+      ok: ['Correu confirmat', 'El teu compte de DropBrick ja està a punt. Torna a l’app i inicia sessió.', 'Ja pots tancar aquesta pàgina.'],
+      bad: ['Aquest enllaç no es pot fer servir', 'Ha caducat o ja s’ha utilitzat. Si ja has confirmat el correu, inicia sessió a l’app. Si no, torna a registrar-te a l’app per rebre’n un de nou.', 'Ja pots tancar aquesta pàgina.']
+    },
+    es: {
+      ok: ['Correo confirmado', 'Tu cuenta de DropBrick ya está lista. Vuelve a la app e inicia sesión.', 'Ya puedes cerrar esta página.'],
+      bad: ['Este enlace no se puede usar', 'Ha caducado o ya se ha usado. Si ya has confirmado el correo, inicia sesión en la app. Si no, vuelve a registrarte en la app para recibir uno nuevo.', 'Ya puedes cerrar esta página.']
+    }
+  };
+
+  // ?lang=ca|es|en overrides the browser language (handy for testing).
+  var wanted = (query.get('lang') || navigator.language || 'en').slice(0, 2).toLowerCase();
+  var lang = TEXT[wanted] ? wanted : 'en';
+  var copy = TEXT[lang][failed ? 'bad' : 'ok'];
+
+  document.documentElement.lang = lang;
+  document.title = 'DropBrick — ' + copy[0];
+  document.getElementById('title').textContent = copy[0];
+  document.getElementById('body').textContent = copy[1];
+  document.getElementById('note').textContent = copy[2];
+  if (failed) {
+    document.getElementById('card').classList.add('error');
+    document.getElementById('badge').innerHTML = '!';
+  }
+</script>
+
+</body>
+</html>
