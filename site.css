@@ -1,0 +1,107 @@
+/* Shared by every page of the site. The same "Joguina viva + La caixa forta" identity as the app
+   (src/constants/theme.ts): warm cream paper, thick ink outlines, hard offset shadows, bright
+   fills, in a light and a dark mode. Coloured fills carry INK text, never white; a coloured word
+   uses the deeper text variant (--coral-text). */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;700;800&display=swap');
+
+:root {
+  --bg: #FFF3D1;
+  --surface: #FFFFFF;
+  --element: #F5E6B8;
+  --ink: #231F20;
+  --ink-soft: #5E574D;
+  --line: #E6D6A2;
+  --shadow: #231F20;
+  --coral: #FF5A47;
+  --coral-text: #C0301F;
+  --gold: #FFC72C;
+  --blue: #2558E0;
+  --on-blue: #FFFFFF;
+  --mint: #17B26A;
+  --lila: #8B5CF6;
+  --on-fill: #231F20;
+  --error: #C42318;
+  --tile-1: #CFE0FF;
+  --tile-2: #E3D5FF;
+  --tile-3: #FFD9D2;
+  --tile-4: #D4F3E2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15121C;
+    --surface: #211C2B;
+    --element: #2A2438;
+    --ink: #F4EEE3;
+    --ink-soft: #A59DB5;
+    --line: #342D45;
+    --shadow: #000000;
+    --coral: #FF6B57;
+    --coral-text: #FF6B57;
+    --gold: #FFD23F;
+    --blue: #5B8CFF;
+    --on-blue: #15121C;
+    --mint: #3DDC97;
+    --lila: #A98BFF;
+    --on-fill: #15121C;
+    --error: #F97066;
+    --tile-1: #23304F;
+    --tile-2: #33284F;
+    --tile-3: #4F2A2A;
+    --tile-4: #1D4A36;
+  }
+}
+
+* { box-sizing: border-box; }
+html { color-scheme: light dark; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Nunito', system-ui, sans-serif;
+  font-weight: 600;
+  margin: 0;
+}
+img { max-width: 100%; }
+h1, h2, h3 { font-family: 'Baloo 2', 'Nunito', system-ui, sans-serif; font-weight: 800; text-wrap: balance; margin: 0; }
+a { color: var(--coral-text); }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+/* A toy-box surface: ink outline over a hard, unblurred shadow. */
+.box {
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+/* A little label, like the app's stickers. */
+.sticker {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-fill);
+  background: var(--gold);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 4px 11px;
+}
+
+.brand { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); }
+.brand img { width: 36px; height: 36px; flex: none; }
+.brand span { font-family: 'Baloo 2', 'Nunito', sans-serif; font-weight: 800; font-size: 21px; }
+
+.langs { display: flex; gap: 6px; }
+.langs a {
+  font-weight: 800;
+  font-size: 12.5px;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  padding: 4px 11px;
+  border-radius: 999px;
+}
+.langs a[aria-current="true"] { color: var(--on-fill); background: var(--coral); }

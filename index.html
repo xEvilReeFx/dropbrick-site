@@ -9,83 +9,21 @@
 <title>DropBrick — Your LEGO collection, and every price drop</title>
 <link rel="icon" type="image/png" href="/logo.png">
 <meta name="description" content="DropBrick tracks your LEGO collection and wishlist, follows the lines you love, and shows you which sets are on sale in participating shops.">
+<link rel="stylesheet" href="/site.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+  body { padding-inline: max(20px, calc((100% - 1080px) / 2)); }
 
-  :root {
-    --bg: #FAF7F2;
-    --bg-raised: #FFFFFF;
-    --ink: #1E1B18;
-    --ink-soft: #6E655C;
-    --line: #E7DED0;
-    --red: #C8322A;
-    --red-deep: #A82720;
-    --gold: #E0A324;
-    --blue: #208AEF;
-    --blue-soft: #E2EFFC;
-    --stud: #EFE7D8;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #17140F;
-      --bg-raised: #211D17;
-      --ink: #F4EEE3;
-      --ink-soft: #A79C8C;
-      --line: #362F26;
-      --red: #E2564C;
-      --red-deep: #C8322A;
-      --gold: #F0BD4E;
-      --blue: #5FA8FF;
-      --blue-soft: #1C2A3A;
-      --stud: #2A241C;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #17140F; --bg-raised: #211D17; --ink: #F4EEE3; --ink-soft: #A79C8C;
-    --line: #362F26; --red: #E2564C; --red-deep: #C8322A; --gold: #F0BD4E;
-    --blue: #5FA8FF; --blue-soft: #1C2A3A; --stud: #2A241C;
-  }
-
-  * { box-sizing: border-box; }
-  html { color-scheme: light dark; }
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Karla', system-ui, sans-serif;
-    margin: 0;
-    padding-inline: max(20px, calc((100% - 1080px) / 2));
-  }
-  img { max-width: 100%; }
-  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; text-wrap: balance; margin: 0; }
-  .eyebrow {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 12.5px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--red);
-    font-weight: 500;
-  }
-
-  /* ---------- Nav ---------- */
-  nav {
+  /* ---------- Top ---------- */
+  .top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
     padding-block: 22px;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 3px solid var(--ink);
   }
-  .brand { display: flex; align-items: center; gap: 9px; }
-  .brand-logo { width: 34px; height: 34px; flex: none; }
-  .brand-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 19px; }
-  nav .status {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--ink-soft);
-    border: 1px solid var(--line);
-    padding: 5px 11px;
-    border-radius: 999px;
-  }
+  .top-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
   /* ---------- Hero ---------- */
   .hero {
@@ -96,238 +34,337 @@
     padding-block: 64px 56px;
   }
   .hero h1 {
-    font-size: clamp(38px, 4.6vw, 58px);
-    font-weight: 700;
-    line-height: 1.04;
-    letter-spacing: -0.01em;
-    margin-top: 14px;
+    font-size: clamp(40px, 5vw, 62px);
+    line-height: 1.02;
+    margin-top: 16px;
   }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--red);
-  }
+  .hero h1 em { font-style: normal; color: var(--coral-text); }
   .hero p {
-    font-size: 17.5px;
+    font-size: 18px;
     line-height: 1.6;
     color: var(--ink-soft);
     max-width: 46ch;
-    margin-top: 18px;
+    margin: 18px 0 0;
   }
   .hero-tags { display: flex; gap: 8px; margin-top: 26px; flex-wrap: wrap; }
   .tag {
-    font-size: 13px;
-    font-weight: 600;
-    padding: 7px 13px;
+    font-size: 13.5px;
+    font-weight: 800;
+    padding: 6px 13px;
     border-radius: 999px;
-    background: var(--bg-raised);
-    border: 1px solid var(--line);
-    color: var(--ink-soft);
+    background: var(--surface);
+    border: 2px solid var(--ink);
   }
 
-  /* ---------- Phone mockup ---------- */
-  .phone-wrap { display: flex; justify-content: center; }
+  /* ---------- Phone ---------- */
+  .phone-wrap { position: relative; display: flex; justify-content: center; padding-bottom: 26px; }
   .phone {
-    width: 268px;
-    background: var(--bg-raised);
-    border: 10px solid var(--ink);
-    border-radius: 34px;
-    padding: 16px 14px;
-    box-shadow: 0 24px 48px -20px rgba(0,0,0,0.35);
+    width: 270px;
+    background: var(--bg);
+    border: 8px solid var(--ink);
+    border-radius: 38px;
+    padding: 16px 14px 12px;
+    box-shadow: 8px 8px 0 var(--shadow);
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
   .phone-header { display: flex; align-items: center; justify-content: space-between; }
-  .phone-header .ph-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 17px; }
-  .ph-bell { width: 20px; height: 20px; border-radius: 6px; background: var(--gold); }
+  .ph-title { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 20px; }
+  .ph-bell { width: 22px; height: 22px; border-radius: 7px; background: var(--gold); border: 2px solid var(--ink); }
   .set-row {
     display: flex; align-items: center; gap: 10px;
-    padding: 8px; border-radius: 10px; background: var(--stud);
+    padding: 8px; border-radius: 12px;
+    background: var(--surface);
+    border: 3px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--shadow);
   }
-  .set-thumb { width: 34px; height: 34px; border-radius: 7px; flex: none; }
-  .set-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-  .set-line1 { height: 8px; width: 78%; border-radius: 3px; background: var(--ink); opacity: 0.75; }
-  .set-line2 { height: 6px; width: 46%; border-radius: 3px; background: var(--ink-soft); opacity: 0.55; }
+  .set-thumb { width: 38px; height: 38px; border-radius: 9px; flex: none; }
+  .set-info { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  .set-line1 { height: 8px; width: 78%; border-radius: 4px; background: var(--ink); }
+  .set-line2 { height: 6px; width: 46%; border-radius: 3px; background: var(--ink-soft); opacity: 0.6; }
   .deal-pill {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px; font-weight: 500;
-    padding: 3px 7px; border-radius: 999px;
-    background: var(--red); color: #fff; flex: none;
+    font-weight: 800; font-size: 11px;
+    padding: 3px 8px; border-radius: 999px;
+    background: var(--coral); color: var(--on-fill);
+    border: 2px solid var(--ink); flex: none;
   }
   .phone-tabbar {
-    display: flex; justify-content: space-around;
-    padding-top: 10px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-around; align-items: center;
+    padding-top: 10px; border-top: 3px solid var(--ink);
   }
-  .tb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
-  .tb-dot.active { background: var(--blue); width: 20px; border-radius: 4px; }
+  .tb-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); border: 2px solid var(--ink); }
+  .tb-dot.active { background: var(--coral); width: 22px; border-radius: 5px; }
+  .mascot { position: absolute; left: -6px; bottom: -40px; width: 118px; height: auto; }
 
   /* ---------- Features ---------- */
   .features {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-    padding-block: 44px 60px;
-    border-top: 1px solid var(--line);
+    gap: 24px;
+    padding-block: 48px 40px;
+    border-top: 3px solid var(--ink);
   }
+  .feature { padding: 22px 22px 24px; }
   .feature-num {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--ink-soft);
-    margin-bottom: 10px;
+    width: 40px; height: 40px; border-radius: 12px;
+    border: 3px solid var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 18px;
+    color: var(--on-fill);
+    margin-bottom: 14px;
   }
-  .features h3 { font-size: 21px; font-weight: 600; margin-bottom: 8px; }
-  .features p { font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0; }
-  .swatch { width: 34px; height: 34px; border-radius: 9px; margin-bottom: 16px; }
-  .swatch.red { background: var(--red); }
-  .swatch.blue { background: var(--blue); }
-  .swatch.gold { background: var(--gold); }
+  .feature-num.coral { background: var(--coral); }
+  .feature-num.blue { background: var(--blue); color: var(--on-blue); }
+  .feature-num.gold { background: var(--gold); }
+  .feature-num.mint { background: var(--mint); }
+  .feature-num.lila { background: var(--lila); }
+  .features h3 { font-size: 23px; line-height: 1.15; margin-bottom: 8px; }
+  .features p { font-size: 15.5px; line-height: 1.6; color: var(--ink-soft); margin: 0; }
 
   /* ---------- Deals callout ---------- */
   .callout {
-    background: var(--bg-raised);
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    padding: 36px 40px;
+    background: var(--gold);
+    color: var(--on-fill);
+    padding: 34px 38px;
     display: flex;
     align-items: center;
-    gap: 36px;
-    margin-block: 8px 60px;
+    gap: 32px;
+    margin-block: 16px 64px;
   }
   .callout-icon {
-    width: 64px; height: 64px; border-radius: 16px; flex: none;
-    background: linear-gradient(150deg, var(--gold), var(--red));
+    width: 68px; height: 68px; border-radius: 18px; flex: none;
+    background: var(--coral);
+    border: 3px solid var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 24px; color: var(--on-fill);
   }
-  .callout h2 { font-size: 25px; font-weight: 600; }
-  .callout p { font-size: 15.5px; line-height: 1.6; color: var(--ink-soft); margin-top: 8px; max-width: 56ch; }
+  .callout h2 { font-size: 28px; line-height: 1.15; }
+  .callout p { font-size: 16.5px; line-height: 1.6; margin: 8px 0 0; max-width: 58ch; }
 
   /* ---------- Footer ---------- */
   footer {
-    border-top: 1px solid var(--line);
+    border-top: 3px solid var(--ink);
     padding-block: 28px 40px;
     display: flex;
     flex-direction: column;
     gap: 14px;
   }
-  .footer-top { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; }
-  footer .brand-name { font-size: 15px; }
-  footer .made-in { font-size: 13px; color: var(--ink-soft); font-family: 'IBM Plex Mono', monospace; }
-  .footer-links { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
-  .footer-links a { color: var(--ink-soft); }
-  .footer-links a:hover { color: var(--red); }
-  .disclaimer {
-    font-size: 12.5px;
-    line-height: 1.6;
-    color: var(--ink-soft);
-    max-width: 72ch;
-  }
+  .footer-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  footer .brand span { font-size: 17px; }
+  footer .brand img { width: 26px; height: 26px; }
+  .made-in { font-size: 13.5px; color: var(--ink-soft); }
+  .footer-links { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14.5px; font-weight: 800; }
+  .footer-links a { color: var(--ink); }
+  .footer-links a:hover { color: var(--coral-text); }
+  .disclaimer { font-size: 13px; line-height: 1.65; color: var(--ink-soft); max-width: 76ch; margin: 0; }
 
+  @media (max-width: 860px) {
+    .features { grid-template-columns: 1fr 1fr; }
+  }
   @media (max-width: 760px) {
-    .hero { grid-template-columns: 1fr; gap: 40px; padding-block: 40px 20px; }
+    .hero { grid-template-columns: 1fr; gap: 48px; padding-block: 40px 28px; }
     .phone-wrap { order: -1; }
-    .phone { width: 220px; }
-    .features { grid-template-columns: 1fr; gap: 36px; padding-block: 36px 40px; }
-    .callout { flex-direction: column; align-items: flex-start; padding: 28px 24px; gap: 18px; }
-    nav { flex-wrap: wrap; gap: 10px; }
+    .phone { width: 232px; }
+    .mascot { left: calc(50% - 168px); width: 96px; }
+    .features { grid-template-columns: 1fr; gap: 20px; padding-block: 36px 28px; }
+    .callout { flex-direction: column; align-items: flex-start; padding: 26px 22px; gap: 16px; margin-bottom: 44px; }
   }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="brand">
-    <img class="brand-logo" src="/logo.png" alt="" width="34" height="34">
-    <span class="brand-name">DropBrick</span>
+<header class="top">
+  <a class="brand" href="/"><img src="/logo.png" alt="" width="36" height="36"><span>DropBrick</span></a>
+  <div class="top-right">
+    <nav class="langs" aria-label="Language">
+      <a href="?lang=en" data-lang="en">EN</a>
+      <a href="?lang=ca" data-lang="ca">CA</a>
+      <a href="?lang=es" data-lang="es">ES</a>
+    </nav>
+    <span class="sticker" data-t="status">In development</span>
   </div>
-  <span class="status">In development</span>
-</nav>
+</header>
 
+<main>
 <section class="hero">
   <div>
-    <span class="eyebrow">A collector's companion</span>
-    <h1>Every set you own.<br>Every set you want.<br><em>Every price drop.</em></h1>
-    <p>DropBrick tracks your LEGO&reg; collection and wishlist, follows the lines you care about as new sets land, and shows you which sets are on sale in participating shops, measured against LEGO&rsquo;s official price.</p>
+    <span class="sticker" data-t="eyebrow">A collector's companion</span>
+    <h1><span data-t="h1a">Your LEGO&reg; collection,</span> <em data-t="h1b">and every price drop.</em></h1>
+    <p data-t="lead">DropBrick tracks your LEGO&reg; collection and wishlist, follows the themes you care about as new sets land, and shows you which sets are on sale in participating shops, measured against LEGO&rsquo;s official price.</p>
     <div class="hero-tags">
       <span class="tag">iOS &amp; Android</span>
-      <span class="tag">Collection tracking</span>
-      <span class="tag">Price alerts — on the way</span>
-      <span class="tag">Deal tracking</span>
+      <span class="tag" data-t="tag1">Collection &amp; wishlist</span>
+      <span class="tag" data-t="tag2">Price alerts</span>
+      <span class="tag" data-t="tag3">Deals</span>
     </div>
   </div>
   <div class="phone-wrap">
-    <div class="phone">
+    <div class="phone" aria-hidden="true">
       <div class="phone-header">
-        <span class="ph-title">Novetats</span>
+        <span class="ph-title" data-t="phone">Deals</span>
         <div class="ph-bell"></div>
       </div>
       <div class="set-row">
-        <div class="set-thumb" style="background:var(--blue-soft)"></div>
+        <div class="set-thumb" style="background:var(--tile-1)"></div>
         <div class="set-info"><div class="set-line1"></div><div class="set-line2"></div></div>
-      </div>
-      <div class="set-row">
-        <div class="set-thumb" style="background:var(--stud)"></div>
-        <div class="set-info"><div class="set-line1" style="width:60%"></div><div class="set-line2"></div></div>
         <div class="deal-pill">-18%</div>
       </div>
       <div class="set-row">
-        <div class="set-thumb" style="background:var(--blue-soft)"></div>
-        <div class="set-info"><div class="set-line1" style="width:70%"></div><div class="set-line2" style="width:30%"></div></div>
+        <div class="set-thumb" style="background:var(--tile-3)"></div>
+        <div class="set-info"><div class="set-line1" style="width:60%"></div><div class="set-line2"></div></div>
+        <div class="deal-pill">-25%</div>
       </div>
       <div class="set-row">
-        <div class="set-thumb" style="background:var(--stud)"></div>
+        <div class="set-thumb" style="background:var(--tile-4)"></div>
+        <div class="set-info"><div class="set-line1" style="width:70%"></div><div class="set-line2" style="width:30%"></div></div>
+        <div class="deal-pill">-12%</div>
+      </div>
+      <div class="set-row">
+        <div class="set-thumb" style="background:var(--tile-2)"></div>
         <div class="set-info"><div class="set-line1" style="width:52%"></div><div class="set-line2"></div></div>
       </div>
       <div class="phone-tabbar">
+        <div class="tb-dot"></div>
+        <div class="tb-dot"></div>
+        <div class="tb-dot"></div>
         <div class="tb-dot active"></div>
-        <div class="tb-dot"></div>
-        <div class="tb-dot"></div>
-        <div class="tb-dot"></div>
         <div class="tb-dot"></div>
       </div>
     </div>
+    <!-- The app's mascot: one red brick with a face. -->
+    <svg class="mascot" viewBox="0 0 120 100" aria-hidden="true">
+      <rect x="28" y="6" width="24" height="18" rx="5" fill="var(--coral)" stroke="var(--ink)" stroke-width="4"/>
+      <rect x="68" y="6" width="24" height="18" rx="5" fill="var(--coral)" stroke="var(--ink)" stroke-width="4"/>
+      <rect x="12" y="20" width="96" height="70" rx="16" fill="var(--coral)" stroke="var(--ink)" stroke-width="4"/>
+      <circle cx="42" cy="50" r="9" fill="#FFFFFF" stroke="var(--ink)" stroke-width="3"/>
+      <circle cx="78" cy="50" r="9" fill="#FFFFFF" stroke="var(--ink)" stroke-width="3"/>
+      <circle cx="44" cy="52" r="3.5" fill="var(--ink)"/>
+      <circle cx="80" cy="52" r="3.5" fill="var(--ink)"/>
+      <path d="M44 70q16 14 32 0" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
   </div>
 </section>
 
-<section class="features">
-  <div>
-    <div class="swatch blue"></div>
-    <div class="feature-num">01</div>
-    <h3>Your whole collection</h3>
-    <p>Owned sets, wishlist, and custom lists — piece counts, minifigs, and notes on every set, at a glance.</p>
+<section class="features" aria-label="What DropBrick does">
+  <div class="feature box">
+    <div class="feature-num coral">1</div>
+    <h3 data-t="f1t">Only real deals.</h3>
+    <p data-t="f1b">Discounts against LEGO&rsquo;s official price, from shops that sell the product themselves. Checked every hour.</p>
   </div>
-  <div>
-    <div class="swatch gold"></div>
-    <div class="feature-num">02</div>
-    <h3>Follow the lines you love</h3>
-    <p>Pick your themes and see new releases the day they land, instead of stumbling on them months later.</p>
+  <div class="feature box">
+    <div class="feature-num blue">2</div>
+    <h3 data-t="f2t">See how the price moves.</h3>
+    <p data-t="f2b">Compare the lowest shop price with the official one, and check its all-time low and high.</p>
   </div>
-  <div>
-    <div class="swatch red"></div>
-    <div class="feature-num">03</div>
-    <h3>Never miss a drop</h3>
-    <p>Hourly price checks at participating shops, with deals measured against LEGO&rsquo;s official price and your wishlist sets first. Price alerts are on the way.</p>
+  <div class="feature box">
+    <div class="feature-num gold">3</div>
+    <h3 data-t="f3t">Your whole collection.</h3>
+    <p data-t="f3b">Keep your sets, your wishlist and your own lists, with a count of sets, pieces and minifigs.</p>
+  </div>
+  <div class="feature box">
+    <div class="feature-num mint">4</div>
+    <h3 data-t="f4t">See when it retires.</h3>
+    <p data-t="f4b">Each set&rsquo;s expected retirement date and how long is left. It is an estimate: LEGO only confirms it shortly before.</p>
+  </div>
+  <div class="feature box">
+    <div class="feature-num lila">5</div>
+    <h3 data-t="f5t">Never miss a new release.</h3>
+    <p data-t="f5b">Follow the themes you care about and see the latest launches.</p>
+  </div>
+  <div class="feature box">
+    <div class="feature-num coral">6</div>
+    <h3 data-t="f6t">Tell me when it drops.</h3>
+    <p data-t="f6b">Set your own alert on any set, by discount or by price, and get a notification when it is reached.</p>
   </div>
 </section>
 
-<div class="callout">
-  <div class="callout-icon"></div>
+<section class="callout box">
+  <div class="callout-icon" aria-hidden="true">%</div>
   <div>
-    <h2>Ofertes — deals, measured against the official price</h2>
-    <p>DropBrick only shows offers that the shop sells itself, never third-party sellers, and orders them by how far they sit below LEGO&rsquo;s official price &mdash; never by commission.</p>
+    <h2 data-t="ct">Deals measured against the official price</h2>
+    <p data-t="cb">DropBrick only shows offers that the shop sells itself, never third-party sellers, and orders them by how far they sit below LEGO&rsquo;s official price &mdash; never by commission.</p>
   </div>
-</div>
+</section>
+</main>
 
 <footer>
   <div class="footer-top">
-    <div class="brand"><img class="brand-logo" src="/logo.png" alt="" width="24" height="24" style="width:24px;height:24px;"><span class="brand-name">DropBrick</span></div>
-    <span class="made-in">built solo &middot; Catalonia</span>
+    <a class="brand" href="/"><img src="/logo.png" alt="" width="26" height="26"><span>DropBrick</span></a>
+    <span class="made-in" data-t="made">built solo &middot; Catalonia</span>
   </div>
   <nav class="footer-links" aria-label="Footer">
-    <a href="/privacy">Privacy policy</a>
-    <a href="/support">Support</a>
+    <a href="/privacy" data-t="privacy">Privacy policy</a>
+    <a href="/support" data-t="support">Support</a>
     <a href="mailto:support@dropbrick.app">support@dropbrick.app</a>
   </nav>
-  <p class="disclaimer">DropBrick takes part in affiliate programmes (such as Awin&rsquo;s): purchase links may earn us a commission if you buy from the shop, at no extra cost to you. DropBrick is an independent, fan-made project and is not affiliated with, endorsed by, or sponsored by the LEGO Group. LEGO&reg; is a trademark of the LEGO Group, which does not sponsor, authorize, or endorse this site.</p>
+  <p class="disclaimer" data-t="disclaimer">DropBrick takes part in affiliate programmes (such as Awin&rsquo;s): purchase links may earn us a commission if you buy from the shop, at no extra cost to you. DropBrick is an independent, fan-made project and is not affiliated with, endorsed by, or sponsored by the LEGO Group. LEGO&reg; is a trademark of the LEGO Group, which does not sponsor, authorize, or endorse this site. Set data (names, images, release dates and details) comes from <a href="https://brickset.com">Brickset.com</a>.</p>
 </footer>
 
+<script>
+  // English is in the page itself; the other languages are swapped in here.
+  // ?lang=ca|es|en overrides the browser language. The strings are fixed
+  // text written here, never user input, so they can carry markup.
+  var TEXT = {
+    ca: {
+      status: 'En desenvolupament',
+      eyebrow: 'El company del col·leccionista',
+      h1a: 'La teva col·lecció LEGO&reg;,',
+      h1b: 'i cada baixada de preu.',
+      lead: 'DropBrick segueix la teva col·lecció LEGO&reg; i la teva wishlist, t&rsquo;avisa dels sets nous dels temes que t&rsquo;interessen i et mostra quins sets estan en oferta a les botigues participants, comparats amb el preu oficial de LEGO.',
+      tag1: 'Col·lecció i wishlist', tag2: 'Alertes de preu', tag3: 'Ofertes', phone: 'Ofertes',
+      f1t: 'Només ofertes de veritat.', f1b: 'Descomptes sobre el preu oficial de LEGO, de botigues que venen elles mateixes el producte. Revisades cada hora.',
+      f2t: 'Mira com es mou el preu.', f2b: 'Compara el preu més baix de les botigues amb el preu oficial i consulta&rsquo;n el mínim i el màxim històric.',
+      f3t: 'Tota la teva col·lecció.', f3b: 'Guarda els teus sets, la teva wishlist i les teves llistes, amb el recompte de sets, peces i minifigs.',
+      f4t: 'Mira quan es retira.', f4b: 'La data prevista de retirada de cada set i quant de temps queda. És una data estimada: LEGO només la confirma poc abans.',
+      f5t: 'No et perdis cap novetat.', f5b: 'Segueix els temes que t&rsquo;interessen i mira els últims llançaments.',
+      f6t: 'Avisa&rsquo;m quan baixi.', f6b: 'Posa la teva pròpia alerta a qualsevol set, per descompte o per preu, i rep una notificació quan s&rsquo;assoleixi.',
+      ct: 'Ofertes mesurades contra el preu oficial',
+      cb: 'DropBrick només mostra ofertes que la botiga ven ella mateixa, mai de venedors externs, i les ordena per com de per sota del preu oficial de LEGO estan &mdash; mai per comissió.',
+      made: 'fet en solitari &middot; Catalunya', privacy: 'Política de privadesa', support: 'Suport',
+      disclaimer: 'DropBrick participa en programes d&rsquo;afiliació (com el d&rsquo;Awin): els enllaços de compra ens poden generar una comissió si compres a la botiga, sense cap cost addicional per a tu. DropBrick és un projecte independent fet per un aficionat i no està afiliat, avalat ni patrocinat pel Grup LEGO. LEGO&reg; és una marca registrada del Grup LEGO, que no patrocina, autoritza ni avala aquest web. Les dades dels sets (noms, imatges, dates de llançament i detalls) vénen de <a href="https://brickset.com">Brickset.com</a>.'
+    },
+    es: {
+      status: 'En desarrollo',
+      eyebrow: 'El compañero del coleccionista',
+      h1a: 'Tu colección LEGO&reg;,',
+      h1b: 'y cada bajada de precio.',
+      lead: 'DropBrick sigue tu colección LEGO&reg; y tu wishlist, te avisa de los sets nuevos de los temas que te interesan y te muestra qué sets están de oferta en las tiendas participantes, comparados con el precio oficial de LEGO.',
+      tag1: 'Colección y wishlist', tag2: 'Alertas de precio', tag3: 'Ofertas', phone: 'Ofertas',
+      f1t: 'Solo ofertas de verdad.', f1b: 'Descuentos sobre el precio oficial de LEGO, de tiendas que venden ellas mismas el producto. Revisadas cada hora.',
+      f2t: 'Mira cómo se mueve el precio.', f2b: 'Compara el precio más bajo de las tiendas con el precio oficial y consulta su mínimo y máximo histórico.',
+      f3t: 'Toda tu colección.', f3b: 'Guarda tus sets, tu wishlist y tus listas, con el recuento de sets, piezas y minifigs.',
+      f4t: 'Mira cuándo se retira.', f4b: 'La fecha prevista de retirada de cada set y cuánto tiempo queda. Es una fecha estimada: LEGO solo la confirma poco antes.',
+      f5t: 'No te pierdas ninguna novedad.', f5b: 'Sigue los temas que te interesan y mira los últimos lanzamientos.',
+      f6t: 'Avísame cuando baje.', f6b: 'Pon tu propia alerta en cualquier set, por descuento o por precio, y recibe una notificación cuando se alcance.',
+      ct: 'Ofertas medidas contra el precio oficial',
+      cb: 'DropBrick solo muestra ofertas que la tienda vende ella misma, nunca de vendedores externos, y las ordena por lo por debajo del precio oficial de LEGO que están &mdash; nunca por comisión.',
+      made: 'hecho en solitario &middot; Cataluña', privacy: 'Política de privacidad', support: 'Soporte',
+      disclaimer: 'DropBrick participa en programas de afiliación (como el de Awin): los enlaces de compra pueden generarnos una comisión si compras en la tienda, sin ningún coste adicional para ti. DropBrick es un proyecto independiente hecho por un aficionado y no está afiliado, avalado ni patrocinado por el Grupo LEGO. LEGO&reg; es una marca registrada del Grupo LEGO, que no patrocina, autoriza ni avala este sitio. Los datos de los sets (nombres, imágenes, fechas de lanzamiento y detalles) vienen de <a href="https://brickset.com">Brickset.com</a>.'
+    }
+  };
+  var TITLES = {
+    ca: 'DropBrick — La teva col·lecció LEGO, i cada baixada de preu',
+    es: 'DropBrick — Tu colección LEGO, y cada bajada de precio'
+  };
+  var DESCRIPTIONS = {
+    ca: 'DropBrick segueix la teva col·lecció i wishlist de LEGO, els temes que t’agraden, i et mostra quins sets estan en oferta a les botigues participants.',
+    es: 'DropBrick sigue tu colección y wishlist de LEGO, los temas que te gustan, y te muestra qué sets están de oferta en las tiendas participantes.'
+  };
+  var wanted = (new URLSearchParams(location.search).get('lang') || navigator.language || 'en').slice(0, 2).toLowerCase();
+  var lang = (wanted === 'ca' || wanted === 'es') ? wanted : 'en';
+  document.documentElement.lang = lang;
+  if (lang !== 'en') {
+    document.title = TITLES[lang];
+    document.querySelector('meta[name="description"]').setAttribute('content', DESCRIPTIONS[lang]);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-t]'), function (el) {
+      var text = TEXT[lang][el.getAttribute('data-t')];
+      if (text) el.innerHTML = text;
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.langs a'), function (a) {
+    if (a.getAttribute('data-lang') === lang) a.setAttribute('aria-current', 'true');
+  });
+</script>
 </body>
 </html>

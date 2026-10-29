@@ -1,38 +1,7 @@
-/* Shared by privacy.html and support.html — same "El manual" palette as the
-   landing page. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+/* Shared by privacy.html and support.html, on top of site.css (same identity as the app and the
+   landing page). */
 
-:root {
-  --bg: #FAF7F2;
-  --bg-raised: #FFFFFF;
-  --ink: #1E1B18;
-  --ink-soft: #6E655C;
-  --line: #E7DED0;
-  --red: #C8322A;
-  --stud: #EFE7D8;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #17140F;
-    --bg-raised: #211D17;
-    --ink: #F4EEE3;
-    --ink-soft: #A79C8C;
-    --line: #362F26;
-    --red: #E2564C;
-    --stud: #2A241C;
-  }
-}
-
-* { box-sizing: border-box; }
-html { color-scheme: light dark; }
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Karla', system-ui, sans-serif;
-  margin: 0;
-  padding: 0 20px 48px;
-}
+body { padding: 0 20px 48px; }
 
 .top, main, .foot { max-width: 760px; margin-inline: auto; }
 
@@ -43,41 +12,23 @@ body {
   gap: 12px;
   flex-wrap: wrap;
   padding-block: 22px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 3px solid var(--ink);
 }
-.brand { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); }
-.brand img { width: 34px; height: 34px; }
-.brand span { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 19px; }
-
-.langs { display: flex; gap: 6px; }
-.langs a {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 12px;
-  color: var(--ink-soft);
-  text-decoration: none;
-  border: 1px solid var(--line);
-  padding: 5px 10px;
-  border-radius: 999px;
-}
-.langs a[aria-current="true"] { color: #fff; background: var(--red); border-color: var(--red); }
 
 main { padding-block: 36px 24px; }
 h1 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
-  font-size: clamp(30px, 5vw, 42px);
-  line-height: 1.1;
+  font-size: clamp(32px, 5vw, 44px);
+  line-height: 1.05;
   margin: 0 0 6px;
 }
 h2 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 600;
-  font-size: 21px;
+  font-size: 23px;
+  line-height: 1.2;
   margin: 34px 0 8px;
 }
 .updated {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 12px;
+  font-weight: 800;
+  font-size: 13px;
   color: var(--ink-soft);
   margin: 0 0 22px;
 }
@@ -85,57 +36,61 @@ p, li { font-size: 16.5px; line-height: 1.65; }
 p { margin: 0 0 12px; }
 ul { margin: 0 0 12px; padding-left: 22px; }
 li { margin-bottom: 6px; }
-a { color: var(--red); }
 .lead { color: var(--ink-soft); }
 
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   margin: 12px 0 16px;
   font-size: 15px;
   line-height: 1.55;
-  border: 2px solid var(--ink);
-  background: var(--bg-raised);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: 4px 4px 0 var(--shadow);
 }
 th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
 th {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 12.5px;
+  font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: var(--stud);
+  background: var(--element);
 }
 tr:last-child td { border-bottom: none; }
 
 details {
-  background: var(--bg-raised);
-  border: 2px solid var(--ink);
-  border-radius: 4px;
-  margin-bottom: 10px;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--shadow);
+  margin-bottom: 14px;
 }
 summary {
   cursor: pointer;
   padding: 14px 16px;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 16.5px;
 }
 details > div { padding: 0 16px 6px; color: var(--ink-soft); }
 details > div p { font-size: 16px; }
 
 .contact {
-  background: var(--bg-raised);
-  border: 2px solid var(--ink);
-  border-radius: 4px;
+  background: var(--surface);
+  border: 3px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0 var(--shadow);
   padding: 18px 20px;
-  margin: 8px 0 8px;
+  margin: 8px 0 12px;
 }
-.contact strong { display: block; font-family: 'Fraunces', Georgia, serif; font-size: 19px; margin-bottom: 4px; }
+.contact strong { display: block; font-family: 'Baloo 2', 'Nunito', sans-serif; font-weight: 800; font-size: 20px; margin-bottom: 4px; }
 
 .foot {
-  border-top: 1px solid var(--line);
+  border-top: 3px solid var(--ink);
   padding-top: 18px;
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--ink-soft);
   display: flex;
   gap: 16px;
@@ -147,5 +102,5 @@ details > div p { font-size: 16px; }
   thead { display: none; }
   tr { border-bottom: 1px solid var(--line); padding: 8px 0; }
   td { border: none; padding: 4px 12px; }
-  td:first-child { font-weight: 700; padding-top: 8px; }
+  td:first-child { font-weight: 800; padding-top: 8px; }
 }
